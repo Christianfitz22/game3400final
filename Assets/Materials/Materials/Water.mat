@@ -34,9 +34,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FresnelBrightness: 0
-    - _FresnelPower: 0
-    - _FresnelShadowDropoff: 0
+    - _FresnelBrightness: 0.095
+    - _FresnelPower: 0.073
+    - _FresnelShadowDropoff: 0.336
     - _HighIntensity: 1.5
     - _LightScalar: 1
     - _LowIntensity: 1
@@ -47,7 +47,7 @@ Material:
     - _RimPower: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColor: {r: 1, g: 0.90803367, b: 0.2971698, a: 1}
     - _HighColor: {r: 1, g: 1, b: 1, a: 1}
     - _LowColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
