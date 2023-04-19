@@ -19,17 +19,30 @@ public class PlayerController : MonoBehaviour
 
     public AudioSource audioSource;
     public AudioMixer masterMixer;
+    public AudioClip jumpSound;
+    public AudioClip landSound;
+    public AudioSource jumpSource;
+
+    public Transform cameraPoint;
+    private bool cutscene = false;
+    public Transform cameraTarget;
+    private GameObject camera;
 
     // Start is called before the first frame update
     void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
+        grounded = true;
+        camera = transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Movement();
+        if (!cutscene)
+        {
+            Movement();
+        }
     }
 
     private bool isGrounded()
@@ -41,7 +54,15 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
+
+        bool oldGrounded = grounded;
         grounded = isGrounded();
+
+        if (!oldGrounded && grounded && this.velocity.y < -3f)
+        {
+            jumpSource.PlayOneShot(landSound);
+        }
+
         if (grounded && velocity.y < 0)
         {
             velocity.y = 0;
@@ -51,7 +72,7 @@ public class PlayerController : MonoBehaviour
         float zMove = Input.GetAxis("Vertical");
 
         var movement = transform.right * xMove + transform.forward * zMove;
-        if (movement != Vector3.zero)
+        if (movement != Vector3.zero && grounded)
         {
             if (!this.audioSource.isPlaying)
             {
@@ -64,9 +85,10 @@ public class PlayerController : MonoBehaviour
         }
         controller.Move(movement * walkSpeed * Time.deltaTime);
 
-        if (Input.GetButtonDown("Jump") && grounded)
+        if (Input.GetButtonDown("Jump") && grounded && jumpHeight != 0f)
         {
             velocity.y = Mathf.Sqrt((jumpHeight * -3f * gravity));
+            jumpSource.PlayOneShot(jumpSound);
         }
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -96,6 +118,10 @@ public class PlayerController : MonoBehaviour
 
     public void TransitionToSurreal()
     {
+        cutscene = true;
+        camera.GetComponent<CameraController>().enabled = false;
+        transform.DetachChildren();
+        camera.transform.SetPositionAndRotation(this.cameraPoint.position, this.cameraPoint.rotation);
         StartCoroutine(FadeOut());
     }
 
@@ -106,6 +132,7 @@ public class PlayerController : MonoBehaviour
         float curVolume = 1f;
         while (curVolume > 0f)
         {
+            camera.transform.position = Vector3.Lerp(cameraPoint.position, cameraTarget.position, 1 - curVolume);
             masterMixer.SetFloat("Volume", Mathf.Log10(curVolume) * 20f);
             curVolume -= Time.deltaTime / 10f;
             yield return null;
