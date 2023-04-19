@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
     private bool grounded;
+
+    public AudioSource audioSource;
+    public AudioMixer masterMixer;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +51,17 @@ public class PlayerController : MonoBehaviour
         float zMove = Input.GetAxis("Vertical");
 
         var movement = transform.right * xMove + transform.forward * zMove;
+        if (movement != Vector3.zero)
+        {
+            if (!this.audioSource.isPlaying)
+            {
+                this.audioSource.Play();
+            }
+        }
+        else
+        {
+            this.audioSource.Stop();
+        }
         controller.Move(movement * walkSpeed * Time.deltaTime);
 
         if (Input.GetButtonDown("Jump") && grounded)
@@ -77,5 +92,24 @@ public class PlayerController : MonoBehaviour
     public void AddVelocity(Vector3 add)
     {
         velocity += add;
+    }
+
+    public void TransitionToSurreal()
+    {
+        StartCoroutine(FadeOut());
+    }
+
+    IEnumerator FadeOut()
+    {
+        yield return new WaitForSeconds(13.0f);
+
+        float curVolume = 1f;
+        while (curVolume > 0f)
+        {
+            masterMixer.SetFloat("Volume", Mathf.Log10(curVolume) * 20f);
+            curVolume -= Time.deltaTime / 10f;
+            yield return null;
+        }
+        SceneManager.LoadScene("Floating Islands");
     }
 }

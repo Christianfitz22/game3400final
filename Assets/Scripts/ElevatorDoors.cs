@@ -27,14 +27,19 @@ public class ElevatorDoors : MonoBehaviour
     public float startDelay;
     public float moveSpeed;
 
+    public AudioSource audioSource;
+    public AudioClip ding;
+    public AudioClip doorOpenSound;
+    public AudioClip doorCloseSound;
+
     void Start()
     {
         this.leftStart = this.leftDoor.transform.position;
         this.rightStart = this.rightDoor.transform.position;
         this.leftEnd = this.leftTarget.position;
         this.rightEnd = this.rightTarget.position;
+        this.audioSource.PlayOneShot(this.ding);
     }
-
 
     // Update is called once per frame
     void Update()
@@ -46,6 +51,7 @@ public class ElevatorDoors : MonoBehaviour
             {
                 this.time = 0;
                 this.state = State.Opening;
+                this.audioSource.PlayOneShot(this.doorOpenSound);
             }
         }
         else if (this.state == State.Opening)
@@ -88,5 +94,6 @@ public class ElevatorDoors : MonoBehaviour
     public void Close()
     {
         this.state = State.Closing;
+        this.audioSource.PlayOneShot(this.doorCloseSound);
     }
 }
