@@ -37,9 +37,9 @@ Material:
     - _FresnelBrightness: 0.095
     - _FresnelPower: 0.073
     - _FresnelShadowDropoff: 0.336
-    - _HighIntensity: 1.5
+    - _HighIntensity: 10
     - _LightScalar: 1
-    - _LowIntensity: 1
+    - _LowIntensity: 10
     - _OutlineSize: 26.85
     - _RampLevels: 2
     - _RimAlpha: 0
