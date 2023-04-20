@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     public Transform cameraTarget;
     private GameObject camera;
 
+    public Transform respawnPoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -101,14 +103,11 @@ public class PlayerController : MonoBehaviour
 
     public void Respawn()
     {
-        /*
-        transform.SetParent(null);
         controller.enabled = false;
         gameObject.transform.position = respawnPoint.position;
         gameObject.transform.rotation = respawnPoint.rotation;
         velocity.y = 0;
         controller.enabled = true;
-        */
     }
 
     public void AddVelocity(Vector3 add)
