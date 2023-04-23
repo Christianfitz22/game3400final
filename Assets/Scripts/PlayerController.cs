@@ -124,6 +124,11 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(FadeOut());
     }
 
+    public void TransitionBackToReal()
+    {
+        SceneManager.LoadScene("OfficeScene");
+    }
+
     IEnumerator FadeOut()
     {
         yield return new WaitForSeconds(13.0f);
