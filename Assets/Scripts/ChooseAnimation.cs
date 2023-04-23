@@ -11,9 +11,17 @@ public class ChooseAnimation : MonoBehaviour
     private void Awake()
     {
         _anim = GetComponent<Animator>();
+        
     }
-    void Start()
+    
+    int Frame = 0;
+    [SerializeField] [Range(1,120)] int randomOffset;
+    private void FixedUpdate()
     {
-        _anim.Play(_animation);
+        Frame++;
+        if (Frame >= randomOffset)
+        {
+            _anim.Play(_animation);
+        }
     }
 }
