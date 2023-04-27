@@ -126,6 +126,10 @@ MonoBehaviour:
   jumpSound: {fileID: 0}
   landSound: {fileID: 0}
   jumpSource: {fileID: 1718055984100104089}
+  cameraPoint: {fileID: 0}
+  cameraTarget: {fileID: 0}
+  fadein: 0
+  respawnPoint: {fileID: 0}
 --- !u!82 &832063777684066100
 AudioSource:
   m_ObjectHideFlags: 0
@@ -415,4 +419,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12b7fd5ff6054d1c937aeac624f3df7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 2000
+  sensitivity: 100

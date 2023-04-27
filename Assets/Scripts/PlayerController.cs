@@ -82,15 +82,18 @@ public class PlayerController : MonoBehaviour
         float zMove = Input.GetAxis("Vertical");
 
         var movement = transform.right * xMove + transform.forward * zMove;
-        if (movement != Vector3.zero && grounded)
+        Debug.Log("Grounded? " + grounded);
+        if (movement != Vector3.zero && (grounded || jumpHeight == 0f))
         {
             if (!this.audioSource.isPlaying)
             {
+                Debug.Log("playing steps");
                 this.audioSource.Play();
             }
         }
         else
         {
+            Debug.Log("stopping steps");
             this.audioSource.Stop();
         }
         controller.Move(movement * walkSpeed * Time.deltaTime);
@@ -128,6 +131,7 @@ public class PlayerController : MonoBehaviour
 
     public void TransitionToSurreal()
     {
+        this.audioSource.Stop();
         cutscene = true;
         camera.GetComponent<CameraController>().enabled = false;
         transform.DetachChildren();
