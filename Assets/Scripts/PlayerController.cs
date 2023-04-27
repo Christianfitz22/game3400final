@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private bool cutscene = false;
     public Transform cameraTarget;
     private GameObject camera;
+    public bool fadein = false;
 
     public Transform respawnPoint;
 
@@ -36,6 +37,13 @@ public class PlayerController : MonoBehaviour
         controller = gameObject.GetComponent<CharacterController>();
         grounded = true;
         camera = transform.GetChild(0).gameObject;
+        if (fadein)
+        {
+            cutscene = true;
+            camera.GetComponent<CameraController>().enabled = false;
+            camera.transform.SetPositionAndRotation(this.cameraPoint.position, this.cameraPoint.rotation);
+            StartCoroutine(FadeIn());
+        }
     }
 
     // Update is called once per frame
@@ -103,11 +111,14 @@ public class PlayerController : MonoBehaviour
 
     public void Respawn()
     {
+        /*
         controller.enabled = false;
         gameObject.transform.position = respawnPoint.position;
         gameObject.transform.rotation = respawnPoint.rotation;
         velocity.y = 0;
         controller.enabled = true;
+        */
+        SceneManager.LoadScene("RespawnScene");
     }
 
     public void AddVelocity(Vector3 add)
@@ -142,5 +153,22 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         SceneManager.LoadScene("Floating Islands");
+    }
+
+    IEnumerator FadeIn()
+    {
+        masterMixer.SetFloat("Volume", Mathf.Log10(0.001f) * 20f);
+        yield return new WaitForSeconds(1.0f);
+        float curVolume = 0f;
+        while (curVolume <= 1f)
+        {
+            camera.transform.position = Vector3.Lerp(cameraPoint.position, cameraTarget.position, curVolume);
+            masterMixer.SetFloat("Volume", Mathf.Log10(curVolume) * 20f);
+            curVolume += Time.deltaTime / 5f;
+            yield return null;
+        }
+        camera.transform.SetPositionAndRotation(this.cameraTarget.position, this.cameraTarget.rotation);
+        cutscene = false;
+        camera.GetComponent<CameraController>().enabled = true;
     }
 }
