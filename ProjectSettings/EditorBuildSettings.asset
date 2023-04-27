@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Floating Islands.unity
     guid: ff70814a1b66df84080b3c9fe496388f
+  - enabled: 1
+    path: Assets/Scenes/ReturnToOffice.unity
+    guid: e41c3354d2863d049a06bcd56507ce6d
   m_configObjects: {}
