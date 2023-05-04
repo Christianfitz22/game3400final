@@ -9,4 +9,9 @@ public class RestartButton : MonoBehaviour
     {
         SceneManager.LoadScene("OfficeScene");
     }
+
+    public void backToMenu()
+    {
+        SceneManager.LoadScene("StartScene");
+    }
 }
